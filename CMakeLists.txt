@@ -5,7 +5,8 @@ set(EXECUTABLE_NAME tic_tac_toe)
 project(${EXECUTABLE_NAME})
 
 set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_CXX_COMPILER clang++)
+# set(CMAKE_CXX_COMPILER x86_64-w64-mingw32-g++)
+set(CMAKE_CXX_COMPILER g++)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(CMAKE_CXX_FLAGS_RELEASE -O3)
 
@@ -15,7 +16,8 @@ set(INCLUDE_DIR include)
 set(SRC_DIR src)
 
 file(GLOB SRCS
-  ${SRC_DIR}/main.cpp
+  ${SRC_DIR}/*.cpp
+  ${SRC_DIR}/player/*.cpp
   )
 
 include_directories(

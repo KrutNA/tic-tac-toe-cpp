@@ -1,0 +1,34 @@
+* Tic-Tac-Toe
+
+  Simple game implementation created with focus on:
+
+  - Reusability;
+  - Readability;
+  - Extensibility;
+  - Optimisations (Smart player works pretty fast and easily extensible);
+  - Mostly modern C++ implementation.
+
+* Build
+
+** Requirements
+
+   - ~cmake~
+   - Any compiller (tested with ~gcc~ on linux and ~mingw-gcc~ with wine)
+
+** Build
+
+   Download this repository.
+
+   Specify your compiler in ~CmakeLists.txt~ file. Default: g++.
+
+   Setup MakeFile:
+
+   - Release: ~cmake -DCMAKE_BUILD_TYPE=Release .~
+   - Debug: ~cmake -DCMAKE_BUILD_TYPE=Debug .~
+
+   Build: ~make .~
+
+* TODOs
+
+  - Implement nought player.
+  - Implement configuration with cli arguments.
