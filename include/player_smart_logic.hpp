@@ -86,12 +86,17 @@ const StateHash FIELD_ROW_FULL = 0777;
 /**
  * Column for selection.
  */
-const StateHash FIELD_COLUMN_FULL = 07700770077;
+const StateHash FIELD_COLUMN_FULL = 0'007'007'007;
 /**
  * Represents pattern for matching any value.
  */
 const StateHash FIELD_ANY_EXPECTED = 07;
 
+/**
+ * Represents non-empty cell
+ */
+const StateHash NON_EMPTY_FIELDS = 0'666'666'666;
+    
 /**
  * Calculates current step from hash.
  */

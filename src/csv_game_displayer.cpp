@@ -13,7 +13,9 @@ void CsvGameDisplayer::display(const GameAction &action) {
 }
 
 void CsvGameDisplayer::display(const GameState &state) {
-  stream << std::endl;
+  if (auto result = state.getResultState()) {
+    stream << '"' << *result << '"' << std::endl;
+  }
 }
 
 }

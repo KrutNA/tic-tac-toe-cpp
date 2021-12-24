@@ -39,9 +39,10 @@ Point SmartPlayerLogicNought::findActionPoint(StateHash hash) {
     auto transformation = transformationsCross[i];
     auto new_hash = transformation.first(hash);
 
-    auto pair = std::find_if(
-        map.begin(), map.end(),
-        [new_hash](auto kv) { return matches(new_hash, kv.first); });
+    auto pair = std::find_if(map.begin(), map.end(),
+                             [new_hash](auto kv) {
+                               return matches(new_hash, kv.first);
+                             });
 
     if (pair != map.end()) {
       return transformation.second(pair->second);

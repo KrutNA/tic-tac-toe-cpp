@@ -2,6 +2,7 @@
 
 #include <cstddef>
 #include <cstdint>
+#include <memory>
 #include <optional>
 #include <array>
 
@@ -13,10 +14,13 @@ namespace core {
  * Represents available values for cell
  */
 enum class CellState : std::uint8_t {
-  Empty,  // Initial state of cell
-  Cross,
-  Nought,
+  Empty  = 1, // Initial state of cellx
+  Cross  = 2,
+  Nought = 4,
 };
+
+
+std::ostream& operator<<(std::ostream& os, const CellState& state);
 
 /**
  * Represents game cells of field.
@@ -29,9 +33,10 @@ using OptionalCellState = std::optional<CellState>;
  * Represents state of game, i.e. game field container.
  */
 class GameState {
-  CellStates cells = { CellState::Empty };
+  CellStates cells = {};;
   std::size_t step = 0;
   bool finishState = false;
+  CellState resultState = CellState::Empty;
 
   void determineIsFinished(std::size_t row, std::size_t column);
   
@@ -64,9 +69,15 @@ class GameState {
   /**
    * Returns finish status of state.
    */
-  bool isFinished() {
+  const bool isFinished() const {
     return finishState;
   }
+
+  /**
+   * Returns empty option on non-finished game state.
+   * Otherwise returns winner of the game or Empty on draw.
+   */
+  const std::optional<CellState> getResultState() const;
 
 };
 

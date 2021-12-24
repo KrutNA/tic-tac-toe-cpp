@@ -1,6 +1,8 @@
+#include "game_state.hpp"
 #include "game_utils.hpp"
 #include "player_smart_logic.hpp"
 #include <cstddef>
+#include <bit>
 
 namespace core::player  {
 
@@ -31,6 +33,7 @@ Point transformNoTransformPoint(Point point) { return point; }
 
 StateHash transformMainDiagonalState(StateHash hash) {
   auto new_hash =
+      // Directly copy main diagonale
       (hash & (extractElements[0] +
                extractElements[4] +
                extractElements[8])) +
@@ -51,6 +54,13 @@ Point transformMainDiagonalPoint(Point point) {
 
 
 StateHash transformSideDiagonalState(StateHash hash) {
+
+  // This logic stands from following assertions:
+  // - Transformation is reversible (same as xor)
+  // - both = main + sido
+  //
+  // So we get: side = both + main
+
   return transformMainDiagonalState(
       transformBothDiagonalState(hash));
 }
@@ -61,17 +71,21 @@ Point transformSideDiagonalPoint(Point point) {
 
 
 StateHash transformBothDiagonalState(StateHash hash) {
-  // Main element not moved
+  // Central element not moved
   const size_t SIZE = utils::GAME_FIELD_SIZE - 1;
   auto new_hash = hash & extractElements[SIZE / 2];
+
   // Swap bytes from first half to send half
   for (auto i = 0; i < SIZE / 2; ++i) {
     auto move = (SIZE - i * 2) * FIELD_SIZE;
+
     // Move first half to right
     new_hash += (hash & extractElements[i]) >> move;
+
     // Move second half to left
     new_hash += (hash & extractElements[SIZE - i]) << move;
   }
+
   return new_hash;
 }
 Point transformBothDiagonalPoint(Point point) {
@@ -86,12 +100,7 @@ inline std::size_t flipBySide(std::size_t v) {
 }
 
 std::size_t calcStep(StateHash hash) {
-  auto result = 0;
-  while (hash != 0) {
-    result += ((hash & FIELD_FULL) != 0);
-    hash >>= FIELD_SIZE;
-  }
-  return result / 2;
+  return std::popcount(hash & NON_EMPTY_FIELDS) / 2;
 }
 
 } // namespace core::player

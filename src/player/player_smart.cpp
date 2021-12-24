@@ -15,6 +15,7 @@ GameAction SmartPlayer::getActionBasedOnState(
 
 void SmartPlayer::setState(CellState state) {
   BasePlayer::setState(state);
+
   if (state == CellState::Cross) {
     logic = new SmartPlayerLogicCross();
   } else {

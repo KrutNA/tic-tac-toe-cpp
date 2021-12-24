@@ -18,14 +18,18 @@ GameAction RandomPlayer::getActionBasedOnState(
 
 inline std::pair<std::size_t, std::size_t> getRandomEmptyCell(
     const CellStates &cellStates) {
+
   static std::random_device engine;
   static std::mt19937 noise{engine()};
 
   auto emptyCellsIds = std::vector<std::size_t>();
+
   for (auto i = 0; i < cellStates.size(); ++i) {
+
     if (cellStates[i] == CellState::Empty) {
       emptyCellsIds.push_back(i);
     }
+
   }
 
   auto max = emptyCellsIds.size() - 1;

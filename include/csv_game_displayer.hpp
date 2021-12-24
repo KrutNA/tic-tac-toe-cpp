@@ -3,6 +3,7 @@
 #include <ostream>
 
 #include "game_displayer.hpp"
+#include "game_state.hpp"
 
 namespace core {
 

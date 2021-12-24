@@ -20,32 +20,35 @@ bool Game::step() {
   if (isFinished()) return false;
 
   do {
-    // Request action from player
+
+    // Request action from player,
     auto action = player->getActionBasedOnState(gameState.getCellStates());
+
     // Try to execute action.
     is_ok = gameState.setAtPoint(action.getRow(), action.getColumn(), player->getState());
 
     // Display current action on success
     if (is_ok) {
       displayer->display(action);
+
 #ifndef NDEBUG
       states.push_back(action);
 #endif
     }
 
-    // Determine ok result.
+    // Determine ok result from applying an action.
   } while (!is_ok);
 
   return is_ok;
 }
 
 void Game::start() {
-  // If game already finished, just restart it.
+  // Restart the game if it's already finished.
   if (isFinished()) {
     reset();
   }
 
-  // Execute while game not finished.
+  // Execute steps to end.
   while (step());
 
   // Display end state of the game.
