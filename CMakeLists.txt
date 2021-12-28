@@ -4,11 +4,14 @@ set(EXECUTABLE_NAME tic_tac_toe)
 
 project(${EXECUTABLE_NAME})
 
-set(CMAKE_CXX_STANDARD 20)
-# set(CMAKE_CXX_COMPILER x86_64-w64-mingw32-g++)
-set(CMAKE_CXX_COMPILER g++)
-set(CMAKE_CXX_STANDARD_REQUIRED True)
-set(CMAKE_CXX_FLAGS_RELEASE -O3)
+
+if (MSVC)
+  set(CMAKE_CXX_FLAGS "/std:c++latest ${CMAKE_CXX_FLAGS}")
+else()
+  set(CMAKE_CXX_STANDARD 20)
+  set(CMAKE_CXX_STANDARD_REQUIRED True)
+  set(CMAKE_CXX_FLAGS_RELEASE -O3)
+endif()
 
 find_package(Threads)
 

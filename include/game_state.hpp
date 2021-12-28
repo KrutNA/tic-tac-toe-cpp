@@ -3,8 +3,9 @@
 #include <cstddef>
 #include <cstdint>
 #include <memory>
-#include <optional>
 #include <array>
+#include <optional>
+#include <iostream>
 
 #include "game_utils.hpp"
 

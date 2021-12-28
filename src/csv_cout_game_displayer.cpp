@@ -1,6 +1,4 @@
 #include "csv_cout_game_displayer.hpp"
-#include <iostream>
-#include <ostream>
 
 namespace core {
 

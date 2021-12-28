@@ -1,7 +1,4 @@
 #include "player_smart.hpp"
-#include "player_smart_logic.hpp"
-#include <array>
-#include <ranges>
 
 namespace core::player {
 

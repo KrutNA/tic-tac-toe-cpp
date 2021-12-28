@@ -1,5 +1,4 @@
 #include "game_state.hpp"
-#include "game_utils.hpp"
 
 namespace core {
 

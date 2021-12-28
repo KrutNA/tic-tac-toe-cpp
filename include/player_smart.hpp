@@ -1,6 +1,7 @@
 #pragma once
 
-#include <map>
+#include <ranges>
+#include <stdexcept>
 
 #include "player_base.hpp"
 #include "player_smart_logic.hpp"
