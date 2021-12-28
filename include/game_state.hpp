@@ -19,8 +19,19 @@ enum class CellState : std::uint8_t {
   Nought = 4,
 };
 
-
 std::ostream& operator<<(std::ostream& os, const CellState& state);
+
+/**
+ * Represents result of the game
+ */
+enum class WinState : std::uint8_t {
+  None,
+  Draw,
+  Cross,
+  Nought,
+};
+
+std::ostream& operator<<(std::ostream& os, const WinState& state);
 
 /**
  * Represents game cells of field.
@@ -36,7 +47,7 @@ class GameState {
   CellStates cells = {};;
   std::size_t step = 0;
   bool finishState = false;
-  CellState resultState = CellState::Empty;
+  WinState resultState = WinState::None;
 
   void determineIsFinished(std::size_t row, std::size_t column);
   
@@ -77,7 +88,7 @@ class GameState {
    * Returns empty option on non-finished game state.
    * Otherwise returns winner of the game or Empty on draw.
    */
-  const std::optional<CellState> getResultState() const;
+  const WinState getResultState() const;
 
 };
 

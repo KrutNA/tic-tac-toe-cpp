@@ -30,12 +30,23 @@ bool GameState::setAtPoint(std::size_t row,
 
   determineIsFinished(row, column);
 
-  if (finishState
-      && step != utils::GAME_FIELD_SIZE) {
-
-    resultState = cellState;
+  if (finishState) {
+    if (step == utils::GAME_FIELD_SIZE) {
+      resultState = WinState::Draw;
+    } else {
+      switch (cellState) {
+        case CellState::Cross:
+          resultState = WinState::Cross;
+          break;
+        case CellState::Nought:
+          resultState = WinState::Nought;
+          break;
+        default:
+          // unreachable
+          break;
+      }
+    }
   }
-
   return true;
 }
 
@@ -44,9 +55,12 @@ const CellStates &GameState::getCellStates() const {
 }
 
 void GameState::determineIsFinished(std::size_t row, std::size_t column) {
+  const auto DIFF = (utils::GAME_FIELD_WIDTH - 1);
   this->finishState = checkRow(row)
                       || checkColumn(column)
-                      || row == column && checkDiagonals(row, column)
+                      || (row == column
+                          || row - column == DIFF
+                          || row - column == -DIFF) && checkDiagonals(row, column)
                       || checkNoEmpty();
 }
 
@@ -84,7 +98,7 @@ inline bool GameState::checkDiagonals(std::size_t row, std::size_t column) {
 
   { // main diagonal
     for (i = 0; i < utils::GAME_FIELD_WIDTH; ++i) {
-      next_index = i + i * utils::GAME_FIELD_WIDTH;
+      next_index = i * (utils::GAME_FIELD_WIDTH + 1);
 
       if (elt != cells[next_index]) break;
     }
@@ -109,29 +123,37 @@ inline bool GameState::checkNoEmpty() {
   return step == utils::GAME_FIELD_SIZE;
 }
 
-const std::optional<CellState> GameState::getResultState() const {
-  if (isFinished()) {
-    return resultState;
-  } else {
-    return {};
-  }
+const WinState GameState::getResultState() const {
+  return resultState;
 }
 
 
-inline const char* toString(const CellState state) {
+inline const char* toString(const WinState state) {
   switch (state) {
-    case CellState::Empty:  return "Draw";
-    case CellState::Cross:  return "Cross";
-    case CellState::Nought: return "Nought";
+    case WinState::None:   return "None";
+    case WinState::Draw:   return "Draw";
+    case WinState::Cross:  return "Cross";
+    case WinState::Nought: return "Nought";
   }
-
-  // Unreachable
-  return "";
+  // unreachable
+  return nullptr;
 }
 
-std::ostream& operator<<(std::ostream& os, const CellState& state) {  
+std::ostream& operator<<(std::ostream& os, const WinState& state) {
   return os << toString(state);
 }
 
+inline const char* toString(const CellState state) {
+  switch (state) {
+    case CellState::Empty:  return "Empty";
+    case CellState::Cross:  return "Cross";
+    case CellState::Nought: return "Nought";
+  }
+  // unreachable
+  return nullptr;
+}
+std::ostream& operator<<(std::ostream& os, const CellState& state) {
+  return os << toString(state);
+}
 
 }

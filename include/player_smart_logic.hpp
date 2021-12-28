@@ -30,8 +30,18 @@ using TransformPointFunction = std::function<Point(Point)>;
  */
 using TransformFunctionsPair = std::pair<TransformHashFunction, TransformPointFunction>;
 
+/**
+ * Represents actions available based on state.
+ */
+using LogicActions = std::vector<std::pair<StateHash, Point>>;
 
 class SmartPlayerLogic {
+ protected:
+  virtual Point findActionPointWithLogic(
+      StateHash hash,
+      const LogicActions* logic,
+      const std::vector<TransformFunctionsPair> &transforms);
+
  public:
   SmartPlayerLogic() {}
 
@@ -111,22 +121,33 @@ StateHash transformSideDiagonalState(StateHash hash);
 Point     transformSideDiagonalPoint(Point point);
 StateHash transformBothDiagonalState(StateHash hash);
 Point     transformBothDiagonalPoint(Point point);
+StateHash transformVerticalState(StateHash hash);
+Point     transformVerticalPoint(Point point);
+StateHash transformHorizontalState(StateHash hash);
+Point     transformHorizontalPoint(Point point);
+StateHash transformHorizontalMainDiagonalState(StateHash hash);
+Point     transformHorizontalMainDiagonalPoint(Point point);
+StateHash transformVerticalMainDiagonalState(StateHash hash);
+Point     transformVerticalMainDiagonalPoint(Point point);
 
 
-static TransformFunctionsPair transformationsCross[] = {
+
+static std::vector<TransformFunctionsPair> transformationsCross = {
   { transformNoTransformState,  transformNoTransformPoint },
   { transformMainDiagonalState, transformMainDiagonalPoint },
   { transformBothDiagonalState, transformBothDiagonalPoint },
   { transformSideDiagonalState, transformSideDiagonalPoint },
 };
 
-static TransformFunctionsPair transformationsNought[] = {
-  { transformNoTransformState,  transformNoTransformPoint },
-  { transformMainDiagonalState, transformMainDiagonalPoint },
-  { transformBothDiagonalState, transformBothDiagonalPoint },
-  { transformSideDiagonalState, transformSideDiagonalPoint },
-  // TODO: Requires vertical and horizontal flips.
-  // But not both cause it equals to both diagonal flip.
+static std::vector<TransformFunctionsPair> transformationsNought = {
+  { transformNoTransformState,            transformNoTransformPoint },
+  { transformMainDiagonalState,           transformMainDiagonalPoint },
+  { transformBothDiagonalState,           transformBothDiagonalPoint },
+  { transformSideDiagonalState,           transformSideDiagonalPoint },
+  { transformVerticalState,               transformVerticalPoint },
+  { transformHorizontalState,             transformHorizontalPoint },
+  { transformVerticalMainDiagonalState,   transformVerticalMainDiagonalPoint },
+  { transformHorizontalMainDiagonalState, transformHorizontalMainDiagonalPoint },
 };
 
 /**

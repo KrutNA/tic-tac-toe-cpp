@@ -2,6 +2,8 @@
 
 #include "game_action.hpp"
 #include "game_state.hpp"
+#include "player.hpp"
+#include <memory>
 
 namespace core {
 
@@ -18,9 +20,15 @@ class GameDisplayer {
   virtual void display(const GameState& state) = 0;
 
   /**
-   * Displayed aftre game finish.
+   * Displayed after game finish.
    */
   virtual void display(const GameAction& action) = 0;
+
+  /**
+   * Displayed on game start.
+   */
+  virtual void display(const std::shared_ptr<player::BasePlayer>& player1,
+                       const std::shared_ptr<player::BasePlayer>& player2) = 0;
 };
 
 }

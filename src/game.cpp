@@ -8,8 +8,11 @@ Game::Game(std::shared_ptr<GameDisplayer> displayer,
     : displayer(displayer),
       cross(cross),
       nought(nought) {
+
   this->cross->setState(CellState::Cross);
   this->nought->setState(CellState::Nought);
+
+  displayer->display(cross, nought);
 }
 
 bool Game::step() {

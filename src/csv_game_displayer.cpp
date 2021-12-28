@@ -13,9 +13,11 @@ void CsvGameDisplayer::display(const GameAction &action) {
 }
 
 void CsvGameDisplayer::display(const GameState &state) {
-  if (auto result = state.getResultState()) {
-    stream << '"' << *result << '"' << std::endl;
-  }
+  auto result = state.getResultState();
+  stream << '"' << result << '"' << std::endl;
 }
 
+void CsvGameDisplayer::display(const std::shared_ptr<player::BasePlayer>& player1,
+                               const std::shared_ptr<player::BasePlayer>& player2) {
+}
 }

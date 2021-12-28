@@ -30,5 +30,4 @@
 
 * TODOs
 
-  - Implement nought player.
   - Implement configuration with cli arguments.

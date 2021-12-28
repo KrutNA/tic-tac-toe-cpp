@@ -18,6 +18,8 @@ class CsvGameDisplayer : public GameDisplayer {
   
   virtual void display(const GameState &state) override;
   virtual void display(const GameAction &action) override;
+  virtual void display(const std::shared_ptr<player::BasePlayer>& player1,
+                       const std::shared_ptr<player::BasePlayer>& player2) override;
 };
 
 }

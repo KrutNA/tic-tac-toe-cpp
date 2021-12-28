@@ -42,4 +42,6 @@ inline std::pair<std::size_t, std::size_t> getRandomEmptyCell(
   return point;
 }
 
+const char* RandomPlayer::toString() const { return "Random"; }
+
 }

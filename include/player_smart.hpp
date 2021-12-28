@@ -38,6 +38,8 @@ class SmartPlayer : public BasePlayer {
       const CellStates &cellStates) override;
 
   virtual ~SmartPlayer();
+  
+  virtual const char* toString() const override;
 };
 
 }

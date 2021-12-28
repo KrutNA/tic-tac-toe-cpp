@@ -1,56 +1,64 @@
 #include "player_smart.hpp"
+#include "player_smart_logic.hpp"
 
 #include <stdexcept>
 // #include <format>
 
 namespace core::player {
 
-static const std::map<StateHash, Point> pointMapsByStepCross[] = {
+static const LogicActions pointMapsByStepNought[] = {
   { // Step 0
-    {0'000'000'000, {0, 0}},
+    {0'777'717'777, {1, 1}},
+    {0'111'121'111, {0, 0}},
   },
   { // Step 1
-    {0'127'777'770, {2, 2}},
-    {0'100'000'002, {0, 2}}, // leads to win
+    {0'221'747'777, {0, 2}},
+    {0'212'747'777, {0, 1}},
+    {0'211'142'111, {2, 1}},
+    {0'211'141'112, {0, 1}},
+    {0'121'241'111, {0, 2}},
+    {0'121'141'121, {0, 2}},
+
+    {0'777'221'777, {1, 2}},
+    {0'412'121'111, {2, 0}},
+    {0'411'121'112, {0, 2}},
+  },
+  { // Step 2
+    {0'774'747'177, {2, 0}}, // win
+    {0'777'144'777, {1, 0}}, // win
+    {0'221'747'777, {0, 2}},
+    {0'212'747'777, {0, 1}},
+    {0'242'141'121, {1, 0}},
+
+    {0'414'727'777, {0, 1}}, // win
+    {0'441'727'777, {0, 2}}, // win
+    {0'772'727'177, {2, 0}},
+    {0'777'221'777, {1, 2}},
+    {0'421'121'142, {0, 2}},
+    {0'411'422'211, {0, 2}},
   },
   { // Step 3
-    {0'177'707'771, {1, 1}}, // win
-    {0'102'020'001, {2, 0}},
-    {0'120'020'001, {2, 1}},
+    {0'774'747'177, {2, 0}}, // win
+    {0'777'144'777, {1, 0}}, // win
+    {0'221'747'777, {0, 2}},
+    {0'212'747'777, {0, 1}},
+    {0'224'442'211, {2, 1}},
 
-    {0'101'777'772, {0, 1}}, // win
-    {0'121'000'002, {2, 0}},
-  },
-  { // Step 4
-    {0'777'777'101, {2, 1}}, // win
-    {0'121'020'211, {1, 0}},
-
-    {0'121'200'102, {1, 1}}, // win
-    {0'121'077'172, {1, 0}}, // win
+    {0'414'727'777, {0, 1}}, // win
+    {0'441'727'777, {0, 2}}, // win
+    {0'772'727'177, {2, 0}},
+    {0'777'221'777, {1, 2}},
+    {0'421'224'142, {0, 2}},
+    {0'424'121'242, {1, 0}},
   }
 };
 
 
 Point SmartPlayerLogicNought::findActionPoint(StateHash hash) {
-  auto step = calcStep(hash);
-  auto map = pointMapsByStepCross[step];
-  
-  for (auto i = 0; i < sizeof(transformationsCross); ++i) {
-    auto transformation = transformationsCross[i];
-    auto new_hash = transformation.first(hash);
-
-    auto pair = std::find_if(map.begin(), map.end(),
-                             [new_hash](auto kv) {
-                               return matches(new_hash, kv.first);
-                             });
-
-    if (pair != map.end()) {
-      return transformation.second(pair->second);
-    }
-  }
-
-  throw std::runtime_error("Unexpected game state.");
-  // throw std::runtime_error(std::format("Error on: {#o}", hash));
+  return SmartPlayerLogic::findActionPointWithLogic(
+      hash,
+      pointMapsByStepNought,
+      transformationsNought);
 }
 
 }

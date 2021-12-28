@@ -37,6 +37,8 @@ class BasePlayer {
   virtual void setState(CellState state) {
     this->state = state;
   }
+
+  virtual const char* toString() const = 0;
 };
 
 
@@ -58,6 +60,8 @@ class RandomPlayer : public BasePlayer {
 
   virtual GameAction getActionBasedOnState(
       const CellStates &cellStates) override;
+  
+  virtual const char* toString() const override;
 };
 
 }

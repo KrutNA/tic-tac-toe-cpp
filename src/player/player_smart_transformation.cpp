@@ -94,6 +94,47 @@ Point transformBothDiagonalPoint(Point point) {
   return point;
 }
 
+
+StateHash transformVerticalState(StateHash hash) {
+  const auto SIZE = (FIELD_SIZE * 2);
+  return (hash & extractColumns[1])
+      + ((hash & extractColumns[0]) >> SIZE)
+      + ((hash & extractColumns[2]) << SIZE);
+}
+Point     transformVerticalPoint(Point point) {
+  return {
+    point.first,
+    flipBySide(point.second),
+  };
+}
+
+StateHash transformHorizontalState(StateHash hash) {
+  const auto SIZE = (FIELD_SIZE * utils::GAME_FIELD_WIDTH * 2);
+  return (hash & extractRows[1])
+      + ((hash & extractRows[0]) >> SIZE)
+      + ((hash & extractRows[2]) << SIZE);
+}
+Point     transformHorizontalPoint(Point point) {
+  return {
+    flipBySide(point.first),
+    point.second,
+  };
+}
+
+StateHash transformHorizontalMainDiagonalState(StateHash hash) {
+  return transformMainDiagonalState(transformHorizontalState(hash));
+}
+Point     transformHorizontalMainDiagonalPoint(Point point) {
+  return transformHorizontalPoint(transformMainDiagonalPoint(point));
+}
+
+StateHash transformVerticalMainDiagonalState(StateHash hash) {
+  return transformMainDiagonalState(transformVerticalState(hash));
+}
+Point     transformVerticalMainDiagonalPoint(Point point) {
+  return transformVerticalPoint(transformMainDiagonalPoint(point));
+}
+
 inline std::size_t flipBySide(std::size_t v) {
   auto move = (v - utils::GAME_FIELD_HEIGHT / 2) * 2;
   return v - move;

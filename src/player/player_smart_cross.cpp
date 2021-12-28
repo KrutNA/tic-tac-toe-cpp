@@ -1,8 +1,4 @@
 #include "player_smart.hpp"
-#include "player_smart_logic.hpp"
-#include <stdexcept>
-#include <vector>
-// #include <format>
 
 namespace core::player {
 
@@ -38,28 +34,10 @@ static const std::vector<std::pair<StateHash, Point>> pointMapsByStepCross[] = {
 
 
 Point SmartPlayerLogicCross::findActionPoint(StateHash hash) {
-  auto step = calcStep(hash);
-  auto map = pointMapsByStepCross[step];
-  const std::size_t SIZE = sizeof(transformationsCross) / sizeof(transformationsCross[0]);
-
-  for (auto i = 0; i < SIZE; ++i) {
-
-    auto transformation = transformationsCross[i];
-    auto new_hash = transformation.first(hash);
-
-    auto pair = std::find_if(map.begin(), map.end(),
-                             [new_hash](auto kv) {
-                               return matches(new_hash, kv.first);
-                             });
-
-    if (pair != map.end()) {
-      auto point = transformation.second(pair->second);
-      return point;
-    }
-  }
-
-  throw std::runtime_error("Unexpected game state.");
-  // throw std::runtime_error(std::format("Error on: {#o}", hash));
+  return SmartPlayerLogic::findActionPointWithLogic(
+      hash,
+      pointMapsByStepCross,
+      transformationsCross);
 }
 
 }
